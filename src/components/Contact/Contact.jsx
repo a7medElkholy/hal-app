@@ -5,6 +5,7 @@ import bottomDots from "../../assets/images/bottom-dots2.png";
 import topDots from "../../assets/images/top-dots.png";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "axios";
 
 export default function Contact() {
   let contactSchema = yup.object().shape({
@@ -82,7 +83,7 @@ export default function Contact() {
                       required
                     />
                     {contactFormik.errors.email &&
-                      contactFormik.touched.email ? (
+                    contactFormik.touched.email ? (
                       <div
                         className="p-4 mb-4 mt-2 rounded-full text-sm text-red-800  bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert"
@@ -147,7 +148,7 @@ export default function Contact() {
                       required
                     />
                     {contactFormik.errors.phone &&
-                      contactFormik.touched.phone ? (
+                    contactFormik.touched.phone ? (
                       <div
                         className="p-4 mb-4 mt-2 rounded-full text-sm text-red-800  bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert"
@@ -179,7 +180,7 @@ export default function Contact() {
                       required
                     />
                     {contactFormik.errors.service &&
-                      contactFormik.touched.service ? (
+                    contactFormik.touched.service ? (
                       <div
                         className="p-4 mb-4 mt-2 rounded-full text-sm text-red-800  bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert"
