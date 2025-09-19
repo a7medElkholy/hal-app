@@ -251,3 +251,7 @@ footer {
 .routation-arrow2{
    transform: scaleX(-1) rotate(-190deg);
 }
+
+.bg-imp {
+  background-color: white;
+}
