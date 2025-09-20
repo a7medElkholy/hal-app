@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function ExploreOurWorks() {
+  const [allCategories, setAllCategories] = useState(null);
   async function getAllCategories() {
-    // const [allCategories, setAllCategories] = useState(null)
     await axios
       .get("http://localhost:8000/api/v1/categories")
       .then((res) => {
-        console.log("Categories", res);
+        console.log("Categories", res.data.data.data);
+        setAllCategories()
       })
       .catch((error) => {
         console.error("Error fetching categories:", error.message);
