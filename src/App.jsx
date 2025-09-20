@@ -13,7 +13,7 @@ import ProjectDetails from "./components/Works/ProjectDetails/ProjectDetails";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Kadamat from "./components/Services/Kadamat";
- 
+import AuthContextProvider from "./Context/AuthContextProvider";
 
 const router = createBrowserRouter([
   {
@@ -23,13 +23,14 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "about", element: <About /> },
       { path: "services", element: <Services /> },
-      { path: "kadamat", element: <Kadamat/> },
+      { path: "kadamat", element: <Kadamat /> },
       { path: "showIdea", element: <ShowIdea /> },
       { path: "works", element: <Works /> },
       { path: "contact", element: <Contact /> },
       { path: "projectDetails", element: <ProjectDetails /> },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
+
       { path: "*", element: <NotFound /> },
     ],
   },
@@ -37,7 +38,9 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <>
-      <RouterProvider router={router}></RouterProvider>
+      <AuthContextProvider>
+        <RouterProvider router={router} />
+      </AuthContextProvider>
     </>
   );
 }

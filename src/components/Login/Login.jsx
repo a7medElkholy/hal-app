@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { InfinitySpin } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { AuthContextObj } from "../../Context/AuthContextProvider";
 
 export default function Login() {
+ const {setUserToken}= useContext(AuthContextObj)
   const navigate = useNavigate();
   const [apiMessage, setApiMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +30,9 @@ export default function Login() {
         formValues
       );
       console.log("res", res.data);
+      console.log("res", res.data.data.token);
+      setUserToken(res.data.data.token)
+      localStorage.setItem("tkn",res.data.data.token )
       setIsSuccess(true);
       setApiMessage("تم تسجيل الدخول بنجاح! جاري التحويل...");
       setTimeout(() => {

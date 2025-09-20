@@ -43,36 +43,41 @@ export default function Register() {
       .required("تأكيد كلمة المرور مطلوب"),
   });
 
-  async function handleregister(formValues) {
-    setApiMsg("");
-    setIsLoading(true);
-    await axios
-      .post("http://localhost:8000/api/v1/register", formValues)
-      .then((res) => {
-        console.log("res", res.data);
-        setIsSuccess(true);
-        setApiMsg("تم تسجيل الدخول بنجاح! جاري التحويل...");
-        setTimeout(() => {
-          navigate("/Login");
-        }, 2000);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error.response.data.errors.email[0]);
-        setApiMsg(
-          error.response?.data?.errors.email[0] || "حدث خطأ أثناء تسجيل الدخول"
-        );
-        setIsLoading(false);
-      });
-  
-  }
+ async function handleregister(formValues) {
+  setApiMsg("");
+  setIsLoading(true);
 
+  try {
+    const res = await axios.post("http://localhost:8000/api/v1/register", formValues);
+
+    console.log("res", res.data);
+    setIsSuccess(true);
+    setApiMsg("تم إنشاء الحساب بنجاح! جاري التحويل...");
+    setTimeout(() => {
+      navigate("/Login");
+    }, 2000);
+  } catch (error) {
+    console.log("error", error.response?.data);
+
+    const errorMsg =
+      error.response?.data?.errors?.email?.[0] ||
+      error.response?.data?.errors?.password?.[0] ||
+      error.response?.data?.message ||
+      "حدث خطأ أثناء تسجيل الحساب";
+
+    setIsSuccess(false);
+    setApiMsg(errorMsg);
+  } finally {
+    setIsLoading(false);
+  }
+}
   let formik = useFormik({
     initialValues: {
       name: "",
       email: "",
       password: "",
       password_confirmation: "",
+       phone: "",
     },
     validationSchema,
     onSubmit: handleregister,
@@ -194,6 +199,20 @@ export default function Register() {
                 </p>
               )}
           </div>
+          <div>
+  <label className="block mb-2 text-sm font-medium text-gray-700">
+    رقم الهاتف 
+  </label>
+  <input
+    type="text"
+    name="phone"
+    value={formik.values.phone}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 border-gray-300 focus:ring-[#013366]"
+    placeholder="أدخل رقم الهاتف "
+  />
+</div>
 
           <button
             type="submit"

@@ -1,9 +1,18 @@
-import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { AuthContextObj } from "../../Context/AuthContextProvider";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const { userToken, setUserToken } = useContext(AuthContextObj);
 
+  function handleLogout() {
+    console.log("logout");
+    localStorage.removeItem("tkn");
+    setUserToken(null);
+    navigate("/login");
+  }
   return (
     <div
       className=" fixed top-0 right-0 left-0 z-50"
@@ -27,19 +36,33 @@ export default function Navbar() {
               isOpen ? "flex" : "hidden"
             }`}
           >
-            <li>
-              <Link to="/register">
-                <div className="bg-contact rounded-3xl p-2 mr-24 flex items-center justify-center w-full md:w-fit">
+            {userToken ? (
+              <li>
+                <div
+                  onClick={handleLogout}
+                  className="bg-contact rounded-3xl p-2 mr-24 flex items-center justify-center w-full md:w-fit cursor-pointer"
+                >
                   <span className="w-8 h-8 flex items-center justify-center bg-[var(--bg-main)] rounded-full main-text">
                     <i className="fa-solid fa-arrow-left"></i>
                   </span>
-                  <span className="ml-2 text-contact ">تواصل معنا</span>
+                  <span className="ml-2 text-contact">تسجيل خروج</span>
                 </div>
-              </Link>
-            </li>
+              </li>
+            ) : (
+              <li>
+                <Link to="/login">
+                  <div className="bg-contact rounded-3xl p-2 mr-24 flex items-center justify-center w-full md:w-fit cursor-pointer">
+                    <span className="w-8 h-8 flex items-center justify-center bg-[var(--bg-main)] rounded-full main-text">
+                      <i className="fa-solid fa-arrow-left"></i>
+                    </span>
+                    <span className="ml-2 text-contact">تسجيل دخول</span>
+                  </div>
+                </Link>
+              </li>
+            )}
 
             <li>
-              <NavLink to="/showIdea">اعرض فكرتك</NavLink>
+              <NavLink to="/contact">اعرض فكرتك</NavLink>
             </li>
             <li>
               <NavLink to="/works">أعمالنا </NavLink>
@@ -81,7 +104,6 @@ export default function Navbar() {
             </svg>
           </Link>
         </div>
-        <div></div>
       </nav>
     </div>
   );
