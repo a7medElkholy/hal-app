@@ -6,13 +6,14 @@ import ShowIdea from "./components/ShowIdea/ShowIdea";
 import Works from "./components/Works/Works";
 import NotFound from "./components/NotFound/NotFound";
 import "@fontsource-variable/cairo"; // Defaults to wght axis
-
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Contact from "./components/Contact/Contact";
 import ProjectDetails from "./components/Works/ProjectDetails/ProjectDetails";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
+import Kadamat from "./components/Services/Kadamat";
+ 
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "about", element: <About /> },
       { path: "services", element: <Services /> },
+      { path: "kadamat", element: <Kadamat/> },
       { path: "showIdea", element: <ShowIdea /> },
       { path: "works", element: <Works /> },
       { path: "contact", element: <Contact /> },
