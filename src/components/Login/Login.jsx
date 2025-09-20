@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { InfinitySpin } from "react-loader-spinner";
+import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
@@ -61,11 +61,10 @@ export default function Login() {
       >
         {apiMessage && (
           <div
-            className={`p-4 mb-4 text-sm text-center rounded-lg border ${
-              isSuccess
+            className={`p-4 mb-4 text-sm text-center rounded-lg border ${isSuccess
                 ? "text-green-700 bg-green-100 border-green-300"
                 : "text-red-700 bg-red-100 border-red-300"
-            }`}
+              }`}
           >
             {apiMessage}
           </div>
@@ -86,11 +85,10 @@ export default function Login() {
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                formik.errors.email && formik.touched.email
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.email && formik.touched.email
                   ? "border-red-500 focus:ring-red-400"
                   : "border-gray-300 focus:ring-[#013366]"
-              }`}
+                }`}
               placeholder="example@mail.com"
             />
             {formik.errors.email && formik.touched.email && (
@@ -108,11 +106,10 @@ export default function Login() {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                formik.errors.password && formik.touched.password
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${formik.errors.password && formik.touched.password
                   ? "border-red-500 focus:ring-red-400"
                   : "border-gray-300 focus:ring-[#013366]"
-              }`}
+                }`}
               placeholder="********"
             />
             {formik.errors.password && formik.touched.password && (
@@ -128,11 +125,11 @@ export default function Login() {
             className="w-full flex items-center justify-center px-4 py-3 text-white bg-[#013366] hover:bg-[#011F41] focus:ring-4 focus:ring-[#022C5D] rounded-lg font-semibold transition-all duration-300 disabled:opacity-60"
           >
             {isLoading ? (
-              <InfinitySpin
-                visible={true}
-                width="100"
+              <ClipLoader
                 color="#fff"
-                ariaLabel="infinity-spin-loading"
+                loading={true}
+                size={20}
+                aria-label="Loading Spinner"
               />
             ) : (
               "تسجيل الدخول"
