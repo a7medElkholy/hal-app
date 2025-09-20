@@ -64,19 +64,7 @@ export default function Register() {
         );
         setIsLoading(false);
       });
-    // setIsLoading(true);
-    // await axios
-    //   .post("https://ecommerce.routemisr.com/api/v1/auth/signup", formValues)
-    //   .then((response) => {
-    //     setIsLoading(false);
-    //     navigate("/");
-    //     console.log(response?.data?.message);
-    //   })
-    //   .catch((error) => {
-    //     setIsLoading(false);
-    //     setApiMsg(error?.response?.data?.message);
-    //   });
-    // console.log(formValues);
+  
   }
 
   let formik = useFormik({
