@@ -1,18 +1,63 @@
 import React, { useContext, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { AuthContextObj } from "../../Context/AuthContextProvider";
+import axios from "axios";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const { userToken, setUserToken } = useContext(AuthContextObj);
 
-  function handleLogout() {
-    console.log("logout");
-    localStorage.removeItem("tkn");
-    setUserToken(null);
-    navigate("/login");
-  }
+function handleLogout() {
+  axios
+    .post(
+      "http://localhost:8000/api/v1/logout",
+      {}, 
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true, // لو بتستخدم Sanctum أو محتاج تبعت كوكيز
+      }
+    )
+    .then((res) => {
+      console.log("Logout successful", res.data);
+      localStorage.removeItem("tkn");
+      setUserToken(null);
+      navigate("/login");
+    })
+    .catch((err) => {
+      console.error("خطأ في تسجيل الخروج:", err);
+    });
+}
+
+  // async function handleLogout() {
+  //   try {
+  //     const token = localStorage.getItem("tkn");
+  //     console.log("token", token);
+
+  //     await axios.post(
+  //       "http://localhost:8000/api/v1/logout",
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+        
+  //         },
+          
+  //       }
+  //     );
+
+  //     localStorage.removeItem("tkn");
+  //     setUserToken(null);
+  //     navigate("/login");
+
+  //     console.log("تم تسجيل الخروج من الجلسة الحالية");
+  //   } catch (error) {
+  //     console.error("خطأ في تسجيل الخروج:", error);
+  //   }
+  // }
+
   return (
     <div
       className=" fixed top-0 right-0 left-0 z-50"

@@ -1,13 +1,18 @@
 import axios from "axios";
 import { useFormik } from "formik";
+
 import { useContext, useState } from "react";
-import { InfinitySpin } from "react-loader-spinner";
+// import { InfinitySpin } from "react-loader-spinner";
+
+// import { useState } from "react";
+import { ClipLoader } from "react-spinners";
+
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { AuthContextObj } from "../../Context/AuthContextProvider";
 
 export default function Login() {
- const {setUserToken}= useContext(AuthContextObj)
+  const { setUserToken } = useContext(AuthContextObj);
   const navigate = useNavigate();
   const [apiMessage, setApiMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -31,8 +36,8 @@ export default function Login() {
       );
       console.log("res", res.data);
       console.log("res", res.data.data.token);
-      setUserToken(res.data.data.token)
-      localStorage.setItem("tkn",res.data.data.token )
+      setUserToken(res.data.data.token);
+      localStorage.setItem("tkn", res.data.data.token);
       setIsSuccess(true);
       setApiMessage("تم تسجيل الدخول بنجاح! جاري التحويل...");
       setTimeout(() => {
@@ -133,11 +138,11 @@ export default function Login() {
             className="w-full flex items-center justify-center px-4 py-3 text-white bg-[#013366] hover:bg-[#011F41] focus:ring-4 focus:ring-[#022C5D] rounded-lg font-semibold transition-all duration-300 disabled:opacity-60"
           >
             {isLoading ? (
-              <InfinitySpin
-                visible={true}
-                width="100"
+              <ClipLoader
                 color="#fff"
-                ariaLabel="infinity-spin-loading"
+                loading={true}
+                size={20}
+                aria-label="Loading Spinner"
               />
             ) : (
               "تسجيل الدخول"
