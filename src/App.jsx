@@ -14,6 +14,7 @@ import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Kadamat from "./components/Services/Kadamat";
 import AuthContextProvider from "./Context/AuthContextProvider";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,7 @@ export default function App() {
     <>
       <AuthContextProvider>
         <RouterProvider router={router} />
+        <Toaster />
       </AuthContextProvider>
     </>
   );

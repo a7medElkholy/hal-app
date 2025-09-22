@@ -11,8 +11,10 @@ import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { AuthContextObj } from "../../Context/AuthContextProvider";
 
+import toast from "react-hot-toast";
+
 export default function Login() {
-  const { setUserToken } = useContext(AuthContextObj);
+  const { setUserToken, setUserId } = useContext(AuthContextObj);
   const navigate = useNavigate();
   const [apiMessage, setApiMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -35,20 +37,31 @@ export default function Login() {
         formValues
       );
       console.log("res", res.data);
-      console.log("res", res.data.data.token);
+      console.log("res", res.data.data.user.id);
       setUserToken(res.data.data.token);
+      setUserId(res.data.data.user.id);
       localStorage.setItem("tkn", res.data.data.token);
+      localStorage.setItem("userId", res.data.data.user.id);
+      toast.success("تم تسجيل الدخول بنجاح", {
+        duration: 2000,
+        position: "top-center",
+      });
       setIsSuccess(true);
-      setApiMessage("تم تسجيل الدخول بنجاح! جاري التحويل...");
+
+      // setApiMessage("تم تسجيل الدخول بنجاح! جاري التحويل...");
       setTimeout(() => {
         navigate("/");
       }, 2000);
     } catch (error) {
       console.log(error?.response?.data || error?.errors?.email?.[0]);
       setIsSuccess(false);
-      setApiMessage(
-        error.response?.data?.errors?.email?.[0] || "حدث خطأ أثناء تسجيل الدخول"
-      );
+      // setApiMessage(
+      //   error.response?.data?.errors?.email?.[0] || "حدث خطأ أثناء تسجيل الدخول"
+      // );
+      toast.error("حدث خطأ أثناء تسجيل الدخول",{
+        duration: 2000,
+        position: "top-center",
+      });
     } finally {
       setIsLoading(false);
     }

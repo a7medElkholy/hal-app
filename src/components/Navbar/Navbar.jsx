@@ -2,61 +2,32 @@ import React, { useContext, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { AuthContextObj } from "../../Context/AuthContextProvider";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const { userToken, setUserToken } = useContext(AuthContextObj);
+  const { userToken, setUserToken, setUserId } = useContext(AuthContextObj);
 
-function handleLogout() {
-  axios
-    .post(
-      "http://localhost:8000/api/v1/logout",
-      {}, 
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true, // لو بتستخدم Sanctum أو محتاج تبعت كوكيز
-      }
-    )
-    .then((res) => {
-      console.log("Logout successful", res.data);
+  async function handleLogout() {
+    try {
       localStorage.removeItem("tkn");
+      localStorage.removeItem("userId");
       setUserToken(null);
+      setUserId(null);
+      toast.success("تم تسجيل الخروج بنجاح", {
+        duration: 2000,
+        position: "top-center",
+      });
       navigate("/login");
-    })
-    .catch((err) => {
-      console.error("خطأ في تسجيل الخروج:", err);
-    });
-}
-
-  // async function handleLogout() {
-  //   try {
-  //     const token = localStorage.getItem("tkn");
-  //     console.log("token", token);
-
-  //     await axios.post(
-  //       "http://localhost:8000/api/v1/logout",
-  //       {},
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-        
-  //         },
-          
-  //       }
-  //     );
-
-  //     localStorage.removeItem("tkn");
-  //     setUserToken(null);
-  //     navigate("/login");
-
-  //     console.log("تم تسجيل الخروج من الجلسة الحالية");
-  //   } catch (error) {
-  //     console.error("خطأ في تسجيل الخروج:", error);
-  //   }
-  // }
+    } catch (error) {
+      toast.error("حدث خطأ فى تسجيل الخروج", {
+        duration: 2000,
+        position: "top-center",
+      });
+      console.log(error);
+    }
+  }
 
   return (
     <div

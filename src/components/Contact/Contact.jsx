@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import contact from "../../assets/images/contact.png";
 import { Link } from "react-router-dom";
 import bottomDots from "../../assets/images/bottom-dots2.png";
@@ -6,50 +6,80 @@ import topDots from "../../assets/images/top-dots.png";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { AuthContextObj } from "../../Context/AuthContextProvider";
+import Swal from "sweetalert2";
 
 export default function Contact() {
+  const { userToken } = useContext(AuthContextObj);
+
   let contactSchema = yup.object().shape({
     name: yup
       .string()
       .required("الاسم مطلوب")
-      .min(3, "الاسم يجب أن يحتوي على 3 أحرف على الأقل")
-      .max(12, "الاسم يجب ألا يتجاوز 12 حرفًا"),
-    phone: yup
-      .string()
-      .required("رقم الهاتف مطلوب")
-      .matches(/^01[0125][0-9]{8}$/),
-    service: yup
-      .string()
-      .required("يرجى اختيار الخدمة المطلوبة")
-      .min(3, "يجب كتابة خدمة لا تقل عن 3 أحرف"),
-    notes: yup
-      .string()
-      .required("يرجى ادخال ملاحظات")
-      .min(3, "يجب كتابة ملاحظة لا تقل عن 3 أحرف")
-      .max(200, "يجب أن تكون الملاحظة أقل من 200 حرف"),
-    email: yup
-      .string()
-      .required("البريد الالكترونى مطلوب ")
-      .email("يرجى إدخال بريد إلكتروني صالح"),
-  });
+      .max(255, "الاسم يجب ألا يتجاوز 255 حرف"),
 
+    field: yup.string().nullable().max(255, "الحقل يجب ألا يتجاوز 255 حرف"),
+
+    capacity: yup
+      .number()
+      .typeError("عدد المستخدمين يجب أن يكون رقم")
+      .nullable()
+      .integer("يجب أن يكون رقمًا صحيحًا")
+      .min(1, "عدد المستخدمين يجب أن يكون 1 على الأقل"),
+
+    cost: yup
+      .number()
+      .typeError("التكلفة يجب أن تكون رقم")
+      .nullable()
+      .min(0, "التكلفة يجب أن تكون أكبر من أو تساوي 0"),
+    description: yup.string().nullable(),
+  });
   let user = {
     name: "",
-    email: "",
-    phone: "",
-    service: "",
-    notes: "",
+    field: "",
+    capacity: undefined,
+    cost: undefined,
+    description: "",
+    user_id: localStorage.getItem("userId") || null,
   };
-  function submit(values) {
-    console.log(values);
 
-    // await axios.post("", values).then((res)=>{console.log(res);
-    // }).catch((error)=>{console.log(error);
-    // });
+  function submitData(values) {
+    if (!userToken) {
+      Swal.fire({
+        icon: "error",
+        text: "من فضلك قم بتسجيل الدخول أولاً",
+        confirmButtonText: "موافق",
+      });
+      return;
+    }
+
+    console.log(values);
+    axios
+      .post("http://localhost:8000/api/v1/ideas", values, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+      .then((res) => {
+        console.log("res", res);
+        toast.success("تم إنشاء الفكرة بنجاح", {
+          duration: 2000,
+          position: "top-center",
+        });
+      })
+      .catch((error) => {
+        console.log("error", error);
+        toast.error("لم يتم إنشاء الفكرة بنجاح", {
+          duration: 2000,
+          position: "top-center",
+        });
+      });
   }
+
   const contactFormik = useFormik({
     initialValues: user,
-    onSubmit: submit,
+    onSubmit: submitData,
     validationSchema: contactSchema,
   });
   return (
@@ -65,31 +95,30 @@ export default function Contact() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label
-                      htmlFor="email"
+                      htmlFor="field"
                       className="block mb-2 text-sm font-medium text-gray-900"
                     >
                       <i className="fa-solid mr-1 fa-star-of-life text-[5px] "></i>
-                      البريد الالكترونى
+                      اختيار الخدمة
                     </label>
                     <input
                       onChange={contactFormik.handleChange}
                       onBlur={contactFormik.handleBlur}
-                      value={contactFormik.values.email}
-                      type="email"
-                      id="email"
-                      name="email"
+                      value={contactFormik.values.field}
+                      type="text"
+                      id="field"
+                      name="field"
                       className="bg-gray-50 border text-right border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                      placeholder="name@example.com"
-                      required
+                      placeholder="تكنولوجيا"
                     />
-                    {contactFormik.errors.email &&
-                    contactFormik.touched.email ? (
+                    {contactFormik.errors.field &&
+                    contactFormik.touched.field ? (
                       <div
                         className="p-4 mb-4 mt-2 rounded-full text-sm text-red-800  bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert"
                       >
                         {" "}
-                        {contactFormik.errors.email}
+                        {contactFormik.errors.field}
                       </div>
                     ) : (
                       ""
@@ -130,31 +159,30 @@ export default function Contact() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
                   <div>
                     <label
-                      htmlFor="phone"
+                      htmlFor="capacity"
                       className="block mb-2 text-sm font-medium text-gray-900"
                     >
                       <i className="fa-solid mr-1 fa-star-of-life text-[5px] "></i>
-                      رقم الهاتف
+                      عدد المستخدمين{" "}
                     </label>
                     <input
                       onChange={contactFormik.handleChange}
                       onBlur={contactFormik.handleBlur}
-                      value={contactFormik.values.phone}
-                      type="tel"
-                      id="phone"
-                      name="phone"
+                      value={contactFormik.values.capacity}
+                      type="number"
+                      id="capacity"
+                      name="capacity"
                       className="bg-gray-50 border text-right border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                      placeholder="ادخل رقم الهاتف"
-                      required
+                      placeholder="ادخل عدد المستخدمين"
                     />
-                    {contactFormik.errors.phone &&
-                    contactFormik.touched.phone ? (
+                    {contactFormik.errors.capacity &&
+                    contactFormik.touched.capacity ? (
                       <div
                         className="p-4 mb-4 mt-2 rounded-full text-sm text-red-800  bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert"
                       >
                         {" "}
-                        {contactFormik.errors.phone}
+                        {contactFormik.errors.capacity}
                       </div>
                     ) : (
                       ""
@@ -162,31 +190,29 @@ export default function Contact() {
                   </div>
                   <div>
                     <label
-                      htmlFor="service"
+                      htmlFor="cost"
                       className="block mb-2 text-sm font-medium text-gray-900"
                     >
                       <i className="fa-solid mr-1 fa-star-of-life text-[5px] "></i>
-                      اختيار الخدمة
+                      التكلفة{" "}
                     </label>
                     <input
                       onChange={contactFormik.handleChange}
                       onBlur={contactFormik.handleBlur}
-                      value={contactFormik.values.service}
-                      type="text"
-                      id="service"
-                      name="service"
+                      value={contactFormik.values.cost}
+                      type="number"
+                      id="cost"
+                      name="cost"
                       className="bg-gray-50 border text-right border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                      placeholder="حدد الخدمة"
-                      required
+                      placeholder="تكلفة المشروع"
                     />
-                    {contactFormik.errors.service &&
-                    contactFormik.touched.service ? (
+                    {contactFormik.errors.cost && contactFormik.touched.cost ? (
                       <div
                         className="p-4 mb-4 mt-2 rounded-full text-sm text-red-800  bg-red-50 dark:bg-gray-800 dark:text-red-400"
                         role="alert"
                       >
                         {" "}
-                        {contactFormik.errors.service}
+                        {contactFormik.errors.cost}
                       </div>
                     ) : (
                       ""
@@ -196,30 +222,30 @@ export default function Contact() {
 
                 <div className="mt-5">
                   <label
-                    htmlFor="message"
+                    htmlFor="description"
                     className="block mb-2 text-sm font-medium text-gray-900"
                   >
                     <i className="fa-solid mr-1 fa-star-of-life text-[5px] "></i>
-                    ملاحظتك
+                    وصف المشروع{" "}
                   </label>
                   <textarea
-                    value={contactFormik.values.notes}
+                    value={contactFormik.values.description}
                     onChange={contactFormik.handleChange}
                     onBlur={contactFormik.handleBlur}
-                    name="notes"
-                    id="notes"
+                    name="description"
+                    id="description"
                     rows="4"
                     className="bg-gray-50 border text-right border-gray-300 text-gray-900 text-sm rounded-2xl focus:ring-blue-500 focus:border-blue-500 block w-full p-3 resize-none"
-                    placeholder="ادخل ملاحظتك "
-                    required
+                    placeholder="وصف المشروع "
                   ></textarea>
-                  {contactFormik.errors.notes && contactFormik.touched.notes ? (
+                  {contactFormik.errors.description &&
+                  contactFormik.touched.description ? (
                     <div
                       className="p-4 mb-4 mt-2 rounded-full text-sm text-red-800  bg-red-50 dark:bg-gray-800 dark:text-red-400"
                       role="alert"
                     >
                       {" "}
-                      {contactFormik.errors.notes}
+                      {contactFormik.errors.description}
                     </div>
                   ) : (
                     ""
@@ -240,7 +266,10 @@ export default function Contact() {
               </form>
             </div>
 
-            <div className="lg:col-span-6 flex flex-col items-center lg:items-end text-center lg:text-right gap-8">
+            <button
+              type="submit"
+              className="lg:col-span-6 flex flex-col items-center lg:items-end text-center lg:text-right gap-8"
+            >
               <div>
                 <span className="block text-lg font-semibold mb-2">
                   &lt;تواصل معنا&gt;
@@ -258,7 +287,7 @@ export default function Contact() {
                   className="w-full h-auto object-contain"
                 />
               </div>
-            </div>
+            </button>
           </div>
         </div>
         <div className="absolute flex  bottom-0 right-0 w-full lg:w-[45%] pointer-events-none">
