@@ -3,6 +3,7 @@ import icon2 from "../../assets/images/icon-2.png";
 import icon3 from "../../assets/images/icon-3.png";
 import icon4 from "../../assets/images/icon-4.png";
 import heroImg from "../../assets/images/about-img.png";
+import { getProjects } from "../../Api";
 
 const services = [
   {

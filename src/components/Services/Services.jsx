@@ -8,7 +8,8 @@ import logo3 from "../../assets/images/logo-3.png";
 import logo4 from "../../assets/images/logo-4.png";
 import logo5 from "../../assets/images/logo-5.png";
 import { Navigation } from 'swiper/modules';
-import { Link } from "react-router-dom";
+import { data, Link } from "react-router-dom";
+import { getProjects } from "../../Api";
 
 
 
@@ -39,6 +40,11 @@ const steps = [
       desc: "إطلاق المنتج ومتابعة النمو والتطوير المستمر",
     },
   ];
+
+  // const project = await 
+   const pro =  getProjects();
+   console.log("pro", pro);
+   
 
 export default function Services() {
   return (
@@ -200,7 +206,7 @@ export default function Services() {
                     {step.id}
                   </div>
                   <h4 className="font-semibold text-lg mb-1">{step.title}</h4>
-                  <p className="text-gray-600 text-sm">{step.desc}</p>
+                  <p className="text-gray-600 text-sm">{step.description}</p>
                 </div>
               ))}
             </div>
@@ -292,6 +298,37 @@ export default function Services() {
     </div>
   </Card>
 </div>
+
+{/* <div className="flex justify-center items-center min-h-screen">
+      <div className="grid md:grid-cols-3 gap-6">
+        {projects.map((project, index) => (
+          <div key={index} className="py-4 text-right px-3">
+            <div className="max-w-96 bg-imp p-2 border-sky-950 border-2 rounded-3xl">
+              <img
+                src={imgSlider}
+                alt="Meaningful alt text"
+                className="rounded-2xl mb-3"
+              />
+
+              <span className="bg-[#E2F2F7] rounded-full ml-auto p-1 w-[130px] text-center block">
+                {project.tag}
+              </span>
+
+              <h5 className="text-2xl font-bold tracking-tight">{project.title}</h5>
+
+              <p className="font-normal">{project.description}</p>
+
+              <div className="bg-main rounded-3xl px-3 py-2 flex items-center justify-between w-full ml-auto cursor-pointer">
+                <span className="main-text">{project.linkText}</span>
+                <span className="w-8 h-8 flex items-center justify-center bg-main2 rounded-full main-text">
+                  <i className="fa-solid fa-arrow-left text-[#013366]"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div> */}
 
 </div>
 
