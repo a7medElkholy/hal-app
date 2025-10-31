@@ -60,7 +60,7 @@ const DesktopHero = () => {
             <img
               src={Ai}
               alt="AI Robotic Hand"
-              className="w-full  max-w-2xl h-auto transform  -scale-x-100"
+              className="w-full Robotic max-w-2xl h-auto transform  scale-y-100 -scale-x-100"
             />
           </div>
         </div>

@@ -255,3 +255,12 @@ footer {
 .bg-imp {
   background-color: white;
 }
+
+@layer utilities {
+  .scale-y-100 {
+    transform: scaleY(1);
+  }
+  .-scale-x-100 {
+    transform: scaleX(-1);
+  }
+}
