@@ -3,7 +3,11 @@ module.exports = {
     center: true,
     padding: "1rem",
   },
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+  "./src/**/*.{js,jsx,ts,tsx}",
+  "./public/index.html",
+],
+ safelist: ['transform', '-scale-x-100', 'scale-y-100'],
   theme: {
     extend: {},
   },
