@@ -1,4 +1,5 @@
 import React, { useState, useLayoutEffect } from 'react';
+import Ai from "../../assets/images/img-hero.png";
 
 // --- Reusable Hook to get window size ---
 const useWindowSize = () => {
@@ -56,7 +57,7 @@ const DesktopHero = () => {
           </div>
           <div className="xl:absolute left-0 top-1/4">
             <img
-              src={'./src/assets/images/img-hero.png'}
+              src={Ai}
               alt="AI Robotic Hand"
               className="w-full Robotic max-w-2xl h-auto transform  scale-y-100 -scale-x-100"
             />
