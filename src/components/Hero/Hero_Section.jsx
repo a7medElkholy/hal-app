@@ -91,8 +91,9 @@ const MobileHero = () => {
           <div className="flex justify-center mt-10">
             <img
               src={Ai}
+              style={{ transform: "scaleX(-1) scaleY(1)" }}
               alt="AI Robotic Hand"
-              className="w-full max-w-sm h-auto transform -scale-x-100"
+              className="w-full max-w-sm h-auto"
             />
           </div>
         </div>

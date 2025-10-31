@@ -39,7 +39,7 @@ export default function HomeSlider() {
           {
             id: 1,
             title: "مشروع الذكاء الاصطناعي",
-            description: "نقدّم حلولًا تقنية متقدمة لإدارة العقارات وتحليل السوق باستخدام الذكاء الاصطناعي",
+            description: "نقدّم حلولًا تقنية متقدمة لإدارة العقارات وتحليل السوق باستخدام ",
             field: "التكنولوجيا",
             category: { title: "تطوير البرمجيات" }
           },
@@ -133,7 +133,7 @@ export default function HomeSlider() {
       >
         {projects.map((project, index) => (
           <SwiperSlide key={project.id || index}>
-            <div className="h-full">
+            <div className="h-full items-center">
               {/* Custom Card Design */}
               <div className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 h-full flex flex-col overflow-hidden group ${styles['project-card']}`}>
                 {/* Image Section */}
