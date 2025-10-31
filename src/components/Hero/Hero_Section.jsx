@@ -1,5 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react';
 import Ai from "../../assets/images/img-hero.png";
+import bgHero from '../../assets/images/bghero.jpg';
 
 // --- Reusable Hook to get window size ---
 const useWindowSize = () => {
@@ -108,7 +109,7 @@ const Hero = () => {
   return (
     <div
       className="relative bg-cover bg-center bg-no-repeat text-white flex flex-col overflow-x-hidden"
-      style={{ backgroundImage: `url(./src/assets/images/bghero.jpg)`, fontStyle: "bold", fontFamily: "Cairo, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial" }}
+      style={{ backgroundImage: `url(${bgHero})`, fontStyle: "bold", fontFamily: "Cairo, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial" }}
       dir="rtl"
     >
       <div className="absolute inset-0 bg-black opacity-40"></div>
