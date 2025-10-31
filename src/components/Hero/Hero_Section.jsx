@@ -59,8 +59,9 @@ const DesktopHero = () => {
           <div className="xl:absolute left-0 top-1/4">
             <img
               src={Ai}
+              style={{ transform: "scaleX(-1) scaleY(1)" }}
               alt="AI Robotic Hand"
-              className="w-full Robotic max-w-2xl h-auto transform  scale-y-100 -scale-x-100"
+              className="w-full Robotic max-w-2xl h-auto"
             />
           </div>
         </div>
