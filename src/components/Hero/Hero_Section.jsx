@@ -89,7 +89,7 @@ const MobileHero = () => {
           </div>
           <div className="flex justify-center mt-10">
             <img
-              src={'./src/assets/images/img-hero.png'}
+              src={Ai}
               alt="AI Robotic Hand"
               className="w-full max-w-sm h-auto transform -scale-x-100"
             />

@@ -3,6 +3,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { AuthContextObj } from "../../Context/AuthContextProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
+import bgHero from '../../assets/images/bghero.jpg';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function Navbar() {
     <div
       className=" fixed top-0 right-0 left-0 z-50"
       style={{
-        backgroundImage: `url(./src/assets/images/bghero.jpg)`,
+        backgroundImage: `url(${bgHero})`,
         fontStyle: "bold",
         fontFamily:
           "Cairo, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
